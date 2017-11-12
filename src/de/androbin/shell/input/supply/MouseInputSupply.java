@@ -37,7 +37,7 @@ public final class MouseInputSupply implements MouseInput {
     final MouseInput input = shell.getInputs().mouse;
     
     if ( input != null ) {
-      input.mouseClicked( x, y, button );
+      input.mousePressed( x, y, button );
     }
   }
   
@@ -52,7 +52,7 @@ public final class MouseInputSupply implements MouseInput {
     final MouseInput input = shell.getInputs().mouse;
     
     if ( input != null ) {
-      input.mouseClicked( x, y, button );
+      input.mouseReleased( x, y, button );
     }
   }
 }
