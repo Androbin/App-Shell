@@ -5,6 +5,7 @@ import java.util.*;
 
 public final class KeyInputTee implements KeyInput {
   private final List<KeyInput> inputs;
+  public boolean mask;
   
   public KeyInputTee() {
     inputs = new ArrayList<>();
@@ -15,9 +16,24 @@ public final class KeyInputTee implements KeyInput {
   }
   
   @ Override
+  public boolean hasKeyMask() {
+    for ( final KeyInput input : inputs ) {
+      if ( input.hasKeyMask() ) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  @ Override
   public void keyPressed( final int keycode ) {
     for ( final KeyInput input : inputs ) {
       input.keyPressed( keycode );
+      
+      if ( mask && input.hasKeyMask() ) {
+        break;
+      }
     }
   }
   
@@ -25,6 +41,10 @@ public final class KeyInputTee implements KeyInput {
   public void keyReleased( final int keycode ) {
     for ( final KeyInput input : inputs ) {
       input.keyReleased( keycode );
+      
+      if ( mask && input.hasKeyMask() ) {
+        break;
+      }
     }
   }
   
@@ -32,6 +52,14 @@ public final class KeyInputTee implements KeyInput {
   public void keyTyped( final char keychar ) {
     for ( final KeyInput input : inputs ) {
       input.keyTyped( keychar );
+      
+      if ( mask && input.hasKeyMask() ) {
+        break;
+      }
     }
+  }
+  
+  public int size() {
+    return inputs.size();
   }
 }

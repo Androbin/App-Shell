@@ -1,6 +1,10 @@
 package de.androbin.shell.input;
 
 public interface MouseInput {
+  default boolean hasMouseMask() {
+    return false;
+  }
+  
   default void mouseClicked( int x, int y, int button ) {
   }
   

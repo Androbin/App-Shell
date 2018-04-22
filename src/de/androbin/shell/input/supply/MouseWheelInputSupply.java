@@ -5,24 +5,41 @@ import de.androbin.shell.input.*;
 import java.util.function.*;
 
 public final class MouseWheelInputSupply implements MouseWheelInput {
-  private final Supplier< ? extends Shell> shell;
+  private final Supplier<? extends Shell> shell;
   
-  public MouseWheelInputSupply( final Supplier< ? extends Shell> shell ) {
+  public MouseWheelInputSupply( final Supplier<? extends Shell> shell ) {
     this.shell = shell;
+  }
+  
+  private MouseWheelInput getInput() {
+    final Shell shell = this.shell.get();
+    
+    if ( shell == null ) {
+      return null;
+    }
+    
+    return shell.getInputs().mouseWheel;
+  }
+  
+  @ Override
+  public boolean hasMouseWheelMask() {
+    final MouseWheelInput input = getInput();
+    
+    if ( input == null ) {
+      return false;
+    }
+    
+    return input.hasMouseWheelMask();
   }
   
   @ Override
   public void mouseWheelMoved( final int x, final int y, final int iclicks, final float fclicks ) {
-    final Shell shell = this.shell.get();
+    final MouseWheelInput input = getInput();
     
-    if ( shell == null ) {
+    if ( input == null ) {
       return;
     }
     
-    final MouseWheelInput input = shell.getInputs().mouseWheel;
-    
-    if ( input != null ) {
-      input.mouseWheelMoved( x, y, iclicks, fclicks );
-    }
+    input.mouseWheelMoved( x, y, iclicks, fclicks );
   }
 }
