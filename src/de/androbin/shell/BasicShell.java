@@ -3,54 +3,38 @@ package de.androbin.shell;
 import de.androbin.shell.input.*;
 import de.androbin.shell.input.tee.*;
 import java.awt.event.*;
+import java.util.*;
 
 public abstract class BasicShell extends AbstractShell {
-  public final KeyInputTee keyboardTee;
-  public final MouseInputTee mouseTee;
-  public final MouseMotionInputTee mouseMotionTee;
-  public final MouseWheelInputTee mouseWheelTee;
+  protected final KeyInputTee keyboardTee;
+  protected final MouseInputTee mouseTee;
+  protected final MouseMotionInputTee mouseMotionTee;
+  protected final MouseWheelInputTee mouseWheelTee;
+  
+  protected final List<KeyInput> keyInputs;
+  protected final List<MouseInput> mouseInputs;
+  protected final List<MouseMotionInput> mouseMotionInputs;
+  protected final List<MouseWheelInput> mouseWheelInputs;
   
   public BasicShell() {
-    keyboardTee = new KeyInputTee();
-    mouseTee = new MouseInputTee();
-    mouseMotionTee = new MouseMotionInputTee();
-    mouseWheelTee = new MouseWheelInputTee();
-  }
-  
-  public final void addKeyInput( final KeyInput input ) {
-    if ( keyboardTee.size() == 0 ) {
-      getInputs().keyboard = keyboardTee;
-    }
+    keyInputs = new ArrayList<>();
+    mouseInputs = new ArrayList<>();
+    mouseMotionInputs = new ArrayList<>();
+    mouseWheelInputs = new ArrayList<>();
     
-    keyboardTee.add( input );
-  }
-  
-  public final void addMouseInput( final MouseInput input ) {
-    if ( mouseTee.size() == 0 ) {
-      getInputs().mouse = mouseTee;
-    }
+    keyboardTee = new KeyInputTee( keyInputs );
+    mouseTee = new MouseInputTee( mouseInputs );
+    mouseMotionTee = new MouseMotionInputTee( mouseMotionInputs );
+    mouseWheelTee = new MouseWheelInputTee( mouseWheelInputs );
     
-    mouseTee.add( input );
-  }
-  
-  public final void addMouseMotionInput( final MouseMotionInput input ) {
-    if ( mouseMotionTee.size() == 0 ) {
-      getInputs().mouseMotion = mouseMotionTee;
-    }
-    
-    mouseMotionTee.add( input );
-  }
-  
-  public final void addMouseWheelInput( final MouseWheelInput input ) {
-    if ( mouseWheelTee.size() == 0 ) {
-      getInputs().mouseWheel = mouseWheelTee;
-    }
-    
-    mouseWheelTee.add( input );
+    getInputs().keyboard = keyboardTee;
+    getInputs().mouse = mouseTee;
+    getInputs().mouseMotion = mouseMotionTee;
+    getInputs().mouseWheel = mouseWheelTee;
   }
   
   public final void exitOnEscape() {
-    addKeyInput( new KeyInput() {
+    keyInputs.add( new KeyInput() {
       @ Override
       public void keyReleased( final int keycode ) {
         if ( keycode == KeyEvent.VK_ESCAPE ) {

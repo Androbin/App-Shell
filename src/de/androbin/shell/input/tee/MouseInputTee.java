@@ -1,18 +1,13 @@
 package de.androbin.shell.input.tee;
 
 import de.androbin.shell.input.*;
-import java.util.*;
 
 public final class MouseInputTee implements MouseInput {
-  private final List<MouseInput> inputs;
+  private final Iterable<MouseInput> inputs;
   public boolean mask;
   
-  public MouseInputTee() {
-    inputs = new ArrayList<>();
-  }
-  
-  public void add( final MouseInput input ) {
-    inputs.add( input );
+  public MouseInputTee( final Iterable<MouseInput> inputs ) {
+    this.inputs = inputs;
   }
   
   @ Override
@@ -57,9 +52,5 @@ public final class MouseInputTee implements MouseInput {
         break;
       }
     }
-  }
-  
-  public int size() {
-    return inputs.size();
   }
 }

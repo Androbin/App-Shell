@@ -1,18 +1,13 @@
 package de.androbin.shell.input.tee;
 
 import de.androbin.shell.input.*;
-import java.util.*;
 
 public final class KeyInputTee implements KeyInput {
-  private final List<KeyInput> inputs;
+  private final Iterable<KeyInput> inputs;
   public boolean mask;
   
-  public KeyInputTee() {
-    inputs = new ArrayList<>();
-  }
-  
-  public void add( final KeyInput input ) {
-    inputs.add( input );
+  public KeyInputTee( final Iterable<KeyInput> inputs ) {
+    this.inputs = inputs;
   }
   
   @ Override
@@ -57,9 +52,5 @@ public final class KeyInputTee implements KeyInput {
         break;
       }
     }
-  }
-  
-  public int size() {
-    return inputs.size();
   }
 }
