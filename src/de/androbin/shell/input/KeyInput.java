@@ -1,6 +1,13 @@
 package de.androbin.shell.input;
 
 public interface KeyInput {
+  KeyInput MASKING = new KeyInput() {
+    @ Override
+    public boolean hasKeyMask() {
+      return true;
+    }
+  };
+  
   default boolean hasKeyMask() {
     return false;
   }

@@ -54,7 +54,7 @@ public abstract class AbstractShell implements Shell {
     return running;
   }
   
-  protected abstract void onResized( final int width, final int height );
+  protected abstract void onResized( int width, int height );
   
   protected final void setActive( final boolean active ) {
     this.active = active;

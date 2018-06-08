@@ -1,6 +1,13 @@
 package de.androbin.shell.input;
 
 public interface MouseInput {
+  MouseInput MASKING = new MouseInput() {
+    @ Override
+    public boolean hasMouseMask() {
+      return true;
+    }
+  };
+  
   default boolean hasMouseMask() {
     return false;
   }
