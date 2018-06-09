@@ -24,9 +24,10 @@ public final class KeyInputTee implements KeyInput {
   @ Override
   public void keyPressed( final int keycode ) {
     for ( final KeyInput input : inputs ) {
+      final boolean hasMask = input.hasKeyMask();
       input.keyPressed( keycode );
       
-      if ( mask && input.hasKeyMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
@@ -35,9 +36,10 @@ public final class KeyInputTee implements KeyInput {
   @ Override
   public void keyReleased( final int keycode ) {
     for ( final KeyInput input : inputs ) {
+      final boolean hasMask = input.hasKeyMask();
       input.keyReleased( keycode );
       
-      if ( mask && input.hasKeyMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
@@ -46,9 +48,10 @@ public final class KeyInputTee implements KeyInput {
   @ Override
   public void keyTyped( final char keychar ) {
     for ( final KeyInput input : inputs ) {
+      final boolean hasMask = input.hasKeyMask();
       input.keyTyped( keychar );
       
-      if ( mask && input.hasKeyMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }

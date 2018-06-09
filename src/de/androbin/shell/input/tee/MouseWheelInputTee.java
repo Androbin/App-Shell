@@ -24,9 +24,10 @@ public final class MouseWheelInputTee implements MouseWheelInput {
   @ Override
   public void mouseWheelMoved( final int x, final int y, final int iclicks, final float fclicks ) {
     for ( final MouseWheelInput input : inputs ) {
+      final boolean hasMask = input.hasMouseWheelMask();
       input.mouseWheelMoved( x, y, iclicks, fclicks );
       
-      if ( mask && input.hasMouseWheelMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }

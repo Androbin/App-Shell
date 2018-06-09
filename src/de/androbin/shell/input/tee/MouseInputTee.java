@@ -24,9 +24,10 @@ public final class MouseInputTee implements MouseInput {
   @ Override
   public void mouseClicked( final int x, final int y, final int button ) {
     for ( final MouseInput input : inputs ) {
+      final boolean hasMask = input.hasMouseMask();
       input.mouseClicked( x, y, button );
       
-      if ( mask && input.hasMouseMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
@@ -35,9 +36,10 @@ public final class MouseInputTee implements MouseInput {
   @ Override
   public void mousePressed( final int x, final int y, final int button ) {
     for ( final MouseInput input : inputs ) {
+      final boolean hasMask = input.hasMouseMask();
       input.mousePressed( x, y, button );
       
-      if ( mask && input.hasMouseMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
@@ -46,9 +48,10 @@ public final class MouseInputTee implements MouseInput {
   @ Override
   public void mouseReleased( final int x, final int y, final int button ) {
     for ( final MouseInput input : inputs ) {
+      final boolean hasMask = input.hasMouseMask();
       input.mouseReleased( x, y, button );
       
-      if ( mask && input.hasMouseMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }

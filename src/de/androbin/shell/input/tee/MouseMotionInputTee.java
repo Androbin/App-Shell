@@ -24,9 +24,10 @@ public final class MouseMotionInputTee implements MouseMotionInput {
   @ Override
   public void mouseDragged( final int x, final int y, final int button ) {
     for ( final MouseMotionInput input : inputs ) {
+      final boolean hasMask = input.hasMouseMotionMask();
       input.mouseDragged( x, y, button );
       
-      if ( mask && input.hasMouseMotionMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
@@ -35,9 +36,10 @@ public final class MouseMotionInputTee implements MouseMotionInput {
   @ Override
   public void mouseMoved( final int x, final int y ) {
     for ( final MouseMotionInput input : inputs ) {
+      final boolean hasMask = input.hasMouseMotionMask();
       input.mouseMoved( x, y );
       
-      if ( mask && input.hasMouseMotionMask() ) {
+      if ( mask && hasMask ) {
         break;
       }
     }
