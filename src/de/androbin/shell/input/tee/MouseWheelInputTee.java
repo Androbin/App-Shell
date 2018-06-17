@@ -1,35 +1,31 @@
 package de.androbin.shell.input.tee;
 
+import de.androbin.shell.*;
 import de.androbin.shell.input.*;
+import java.util.*;
+import java.util.function.*;
 
-public final class MouseWheelInputTee implements MouseWheelInput {
-  private final Iterable<MouseWheelInput> inputs;
-  public boolean mask;
-  
-  public MouseWheelInputTee( final Iterable<MouseWheelInput> inputs ) {
-    this.inputs = inputs;
+public final class MouseWheelInputTee<T> extends InputTee<T, MouseWheelInput>
+    implements MouseWheelInput {
+  public MouseWheelInputTee( final Iterable<T> sources,
+      final Function<T, MouseWheelInput> resolver ) {
+    super( sources, resolver );
   }
   
-  @ Override
-  public boolean hasMouseWheelMask() {
-    for ( final MouseWheelInput input : inputs ) {
-      if ( input.hasMouseWheelMask() ) {
-        return true;
-      }
-    }
-    
-    return false;
+  public static MouseWheelInputTee<MouseWheelInput> from( final MouseWheelInput ... inputs ) {
+    return from( Arrays.asList( inputs ) );
+  }
+  
+  public static MouseWheelInputTee<MouseWheelInput> from( final Iterable<MouseWheelInput> inputs ) {
+    return new MouseWheelInputTee<>( inputs, input -> input );
+  }
+  
+  public static <T extends Shell> MouseWheelInputTee<T> fromShell( final Iterable<T> inputs ) {
+    return new MouseWheelInputTee<>( inputs, shell -> shell.getInputs().mouseWheel );
   }
   
   @ Override
   public void mouseWheelMoved( final int x, final int y, final int iclicks, final float fclicks ) {
-    for ( final MouseWheelInput input : inputs ) {
-      final boolean hasMask = input.hasMouseWheelMask();
-      input.mouseWheelMoved( x, y, iclicks, fclicks );
-      
-      if ( mask && hasMask ) {
-        break;
-      }
-    }
+    process( input -> input.mouseWheelMoved( x, y, iclicks, fclicks ) );
   }
 }

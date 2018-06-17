@@ -20,11 +20,6 @@ public abstract class AbstractShell implements Shell {
   }
   
   @ Override
-  public void exit() {
-    setRunning( false );
-  }
-  
-  @ Override
   public final int getHeight() {
     return height;
   }

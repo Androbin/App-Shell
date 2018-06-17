@@ -6,7 +6,9 @@ public interface Shell extends Context {
   default void destroy() {
   }
   
-  void exit();
+  default void exit() {
+    setRunning( false );
+  }
   
   int getHeight();
   
@@ -28,7 +30,8 @@ public interface Shell extends Context {
   
   void setSize( int width, int height );
   
-  void update( float delta );
+  default void update( float delta ) {
+  }
   
   default void updateUI( float delta ) {
   }

@@ -4,54 +4,28 @@ import de.androbin.shell.*;
 import de.androbin.shell.input.*;
 import java.util.function.*;
 
-public final class MouseMotionInputSupply implements MouseMotionInput {
-  private final Supplier<MouseMotionInput> input;
-  
+public final class MouseMotionInputSupply extends InputSupply<MouseMotionInput>
+    implements MouseMotionInput {
   public MouseMotionInputSupply( final Supplier<MouseMotionInput> input ) {
-    this.input = input;
+    super( input );
   }
   
   public static MouseMotionInputSupply fromInputs( final Supplier<Inputs> inputs ) {
-    return new MouseMotionInputSupply( () -> {
-      final Inputs inputs1 = inputs.get();
-      return inputs1 == null ? null : inputs1.mouseMotion;
-    } );
+    return new MouseMotionInputSupply( InputSupplies.fromInputs(
+        inputs, inputs1 -> inputs1.mouseMotion ) );
   }
   
   public static MouseMotionInputSupply fromShell( final Supplier<Shell> shell ) {
-    return fromInputs( InputSupply.fromShell( shell ) );
-  }
-  
-  @ Override
-  public boolean hasMouseMotionMask() {
-    final MouseMotionInput input = this.input.get();
-    
-    if ( input == null ) {
-      return false;
-    }
-    
-    return input.hasMouseMotionMask();
+    return fromInputs( InputSupplies.fromShell( shell ) );
   }
   
   @ Override
   public void mouseDragged( final int x, final int y, final int button ) {
-    final MouseMotionInput input = this.input.get();
-    
-    if ( input == null ) {
-      return;
-    }
-    
-    input.mouseDragged( x, y, button );
+    process( input -> input.mouseDragged( x, y, button ) );
   }
   
   @ Override
   public void mouseMoved( final int x, final int y ) {
-    final MouseMotionInput input = this.input.get();
-    
-    if ( input == null ) {
-      return;
-    }
-    
-    input.mouseMoved( x, y );
+    process( input -> input.mouseMoved( x, y ) );
   }
 }
