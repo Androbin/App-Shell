@@ -1,6 +1,15 @@
 package de.androbin.shell;
 
 public interface Context {
+  default void onAfterResumed() {
+  }
+  
+  default void onBeforePaused() {
+  }
+  
+  default void onConfig( Object value ) {
+  }
+  
   default void onPaused() {
   }
   
